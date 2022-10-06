@@ -11,7 +11,7 @@ import numpy as np
 
 class Geo:
     
-    def __init__(self, freq, lat, long, gmt, alt,beta, desde='09/09/2016', hasta='12/31/2018'):
+    def __init__(self, range_dates,  lat, long, gmt, alt, beta ):
         self.gmt = gmt
         self.lat = lat
         self.long = long
@@ -22,12 +22,13 @@ class Geo:
         genera las filas para todo el df
         dado fechade de inicio y fin espaciado por freq cant de tiempo
         """
-        self.df['Fecha'] =  pd.date_range(start=desde+' 00:00:00', end=hasta+' 23:59:00', freq= freq+' min')
+        #self.df['Fecha'] =  pd.date_range(start=desde+' 00:00:00', end=hasta+' 23:59:00', freq= freq+' min')
+        self.df['Fecha'] = range_dates
         """
         #el desplamiento para realizar 
         #el cálculo en el centro del invervalo
         """
-        self.df['Fecha'] =  self.df['Fecha']
+        #self.df['Fecha'] =  self.df['Fecha']
         self.df['N'] = self.df['Fecha'].dt.day_of_year
         self.df['M'] = self.df['Fecha'].dt.month
         self.df['Y'] = self.df['Fecha'].dt.year
@@ -64,7 +65,7 @@ class Geo:
                                           r['delta'],
                                           r['CTZ'],
                                           r['ws']
-                                                     ), axis=1)
+                                                      ), axis=1)
         self.df['Ma'] = self.generateMa()
         self.df['Ma2'] = self.getMA(self.df['CTZ'])
         
@@ -73,10 +74,10 @@ class Geo:
         self.df['Mak'] = self.MaK()
         self.ktrp = 0.7 + 1.6391 * 10**-3 * self.altura ** 0.5500 
         
-        self.ktrp_2 = 0.649 + 0.02 * self.altura ** 0.28
+        #self.ktrp_2 = 0.649 + 0.02 * self.altura ** 0.28
         
         self.df['GHIargp'] = self.generateGHIargp(self.df)
-        self.df['GHIargp_2'] = self.generateGHIargp_2(self.df)
+        # self.df['GHIargp_2'] = self.generateGHIargp_2(self.df)
         
         
         
